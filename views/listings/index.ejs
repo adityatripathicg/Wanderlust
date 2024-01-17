@@ -7,16 +7,21 @@
 </head>
 <body>
     <h1>All Listings Here!</h1>
+    <form action="/listings/new" method="get">
+        <button>Create New Listing</button>
+    </form>
     <ul>
         <% for(let listing of alllistings){ %>
-            <a href="/listing/<%= listing._id%>">
-            <li><%= listing.title %></li>
+            <a href="/listings/<%= listing._id%>">
+            <li><%= listing.title %></li></a> 
             <li><%= listing.desc %></li>
             <li><img src="<%= listing.image.url %>" alt=""></li>
             <li><%= listing.price %></li>
             <li><%= listing.location %></li>
             <li><%= listing.country %></li> 
-            </a> 
+            <form action="/listings/<%= listing._id%>/edit" method="get">
+                <button>Edit Listing</button>
+            </form>
         <% } %>
     </ul>
 </body>

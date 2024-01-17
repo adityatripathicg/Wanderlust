@@ -26,12 +26,41 @@ app.get("/listings",async(req,res)=>{
     res.render("listings/index.ejs",{alllistings});
 });
 
+//New Route
+app.get("/listings/new",(req,res)=>{
+    res.render("listings/new.ejs");
+});
+
+//Edit Route
+app.get("/listings/:id/edit",async (req,res)=>{
+    let {id} = req.params;
+    let listing = await Listing.findById(id);
+    res.render("listings/edit.ejs",{listing});
+});
+
+//Update Route 
+app.put("/listings/:id",async (req,res)=>{
+    let {id} = req.params;
+    await Listing.findByIdAndUpdate(id, {...req.body.Listing});
+    res.redirect(`/listings/${id}`);
+});
+
 //Show Route
-app.get("/listing/:id",async(req,res)=>{
+app.get("/listings/:id",async(req,res)=>{
     let {id} = req.params;
     let listing = await Listing.findById(id);
     res.render("listings/show.ejs",{listing});
 });
+
+//Create Route
+app.post("/listings",async(req,res)=>{
+    //let {title,desc, image,price,location,country} = req.body;
+    let newlisting = new Listing(req.body.Listing);
+    await newlisting.save();
+    res.redirect("/listings");
+});
+
+
 // app.get("/testListing", async (req,res)=>{
 //     let sampleListing = new Listing({
 //         title : "My New Villa",
