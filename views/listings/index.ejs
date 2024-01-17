@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderLust</title>
+</head>
+<body>
+    <h1>All Listings Here!</h1>
+    <ul>
+        <% for(let listing of alllistings){ %>
+            <a href="/listing/<%= listing._id%>">
+            <li><%= listing.title %></li>
+            <li><%= listing.desc %></li>
+            <li><img src="<%= listing.image.url %>" alt=""></li>
+            <li><%= listing.price %></li>
+            <li><%= listing.location %></li>
+            <li><%= listing.country %></li> 
+            </a> 
+        <% } %>
+    </ul>
+</body>
+</html>
