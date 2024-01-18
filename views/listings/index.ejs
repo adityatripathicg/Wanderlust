@@ -13,34 +13,18 @@
                 <div class="card-img-overlay"></div>
                 <div class="card-body">
                   <p class="card-text">
-                    
-                        <b><%= listing.title %></b><br> 
+                    <b><%= listing.title %></b><br> 
                     &#8377;<%= listing.price.toLocaleString("en-IN") %> / Night
-                    <form action="/listings/<%= listing._id%>/edit" method="get">
-                        <button class="btn btn-primary">Edit Listing</button>
-                    </form>
+                </a>
+                <form action="/listings/<%= listing._id%>" method="get">
+                    <button class="btn btn-primary">Read More</button>
+                </form>
                 </p>
                 </div>
-                </a>
+                
               </div> 
               
               <% } %> 
     </div>
     
-
-
-    <!-- <ul>
-        <% for(let listing of alllistings){ %>
-            <a href="/listings/<%= listing._id%>">
-            <li><%= listing.title %></li></a> 
-            <li><%= listing.desc %></li>
-            <li><img src="<%= listing.image.url %>" alt=""></li>
-            <li><%= listing.price %></li>
-            <li><%= listing.location %></li>
-            <li><%= listing.country %></li> 
-            <form action="/listings/<%= listing._id%>/edit" method="get">
-                <button>Edit Listing</button>
-            </form>
-        <% } %>
-    </ul> -->
 </body>
