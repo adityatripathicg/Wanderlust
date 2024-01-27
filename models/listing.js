@@ -10,7 +10,8 @@ const listingSchema = new Schema({
     desc: String,
     image: {
         filename: String,
-        url: String
+        url: String,
+        
       },
     // image : {
     //     type : String,
@@ -26,11 +27,15 @@ const listingSchema = new Schema({
             ref : "Review",
         },
     ],
+    owner : {
+        type :Schema.Types.ObjectId,
+        ref : "User",
+    },
 });
 
-listingSchema.post("findOneAndDelete", async (req,res)=>{
-if(listing){
-    await Review.deleteMany({reviews : { $in : listingSchema.reviews}});
+listingSchema.post("findOneAndDelete", async (listing)=>{
+if(listing && listing.reviews){
+    await Review.deleteMany({_id : { $in : listingSchema.reviews}});
 }
 });
 

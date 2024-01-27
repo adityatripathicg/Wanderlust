@@ -1,15 +1,12 @@
 //Require
 const express = require("express");
 const app = express();
+const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
-const Listing = require("./models/listing.js");
-const Review = require("./models/review.js");
 const path = require('path');
 const methodOverride = require("method-override");
 const ejsMate = require('ejs-mate')
-const wrapAsync = require("./utils/wrapAsync.js")
 const ExpressError = require("./utils/ExpressError.js");
-const {listingSchema, reviewSchema} = require("./schema.js");
 const listingsRouter = require("./routes/listings.js");
 const reviewsRouter = require("./routes/reviews.js");
 const usersRouter = require("./routes/user.js");
@@ -28,6 +25,8 @@ app.use(express.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname,"public")));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 const sessionOptions= {
@@ -72,24 +71,18 @@ app.get("/",(req,res)=>{
 app.use((req,res,next)=>{ // Success Error Flash
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    res.locals.currUser = req.user;
     next();
 });
 
-app.get("/demouser", async (req,res)=>{
-    let fakeUser = new User({
-        email : "cg@gmail.com",
-        username : "cg",
-    });
-    let reguser = await User.register(fakeUser, "password");
-    res.send(reguser);
-});
+
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", usersRouter);
 
-app.all("*",(req,res,next)=>{
-    next(new ExpressError(404,"Page Not Found"))
-})
+// app.all("*",(req,res,next)=>{
+//     next(new ExpressError(404,"Page Not Found"))
+// });
 app.use((err,req,res,next)=>{
     let {status=500, message="Something Went Wrong"} = err;
     res.status(status).render("listings/error.ejs", {err});
