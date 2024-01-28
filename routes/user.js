@@ -4,12 +4,12 @@ const router = express.Router({ mergeParams: true });
 const wrapAsync = require('../utils/wrapAsync.js');
 const passport = require('passport');
 const { saveRedirectUrl } = require('../middleware.js');
-const { signup, signOut, renderSignUpForm, renderLoginForm, login } = require('../controllers/users.js');
+const { signUp, signOut, renderSignUpForm, renderLoginForm, login } = require('../controllers/users.js');
 
 //SignUp Route
 router.route("/signup")
 .get(renderSignUpForm)
-.post(wrapAsync(signup));
+.post(wrapAsync(signUp));
 
 //Login Route
 router.route("/login")

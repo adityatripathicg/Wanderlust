@@ -1,5 +1,5 @@
 const User = require("../models/user.js");
-
+const flash = require("connect-flash");
 
 module.exports.renderSignUpForm = (req,res)=>{
     res.render("users/signup.ejs"); 

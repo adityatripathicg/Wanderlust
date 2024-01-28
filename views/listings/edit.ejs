@@ -3,7 +3,7 @@
     <div class="row mt-3">
         <div class="col-8 offset-2">
     <h2>Edit Listing : </h2>
-    <form action="/listings/<%= listing._id %>?_method=PUT" method="post" novalidate class="needs-validation">
+    <form action="/listings/<%= listing._id %>?_method=PUT" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
         <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input required type="text" name="Listing[title]" class="form-control" value="<%= listing.title %>">
@@ -15,11 +15,14 @@
         <textarea required class="form-control"name="Listing[desc]"  id="desc" cols="30" rows="2"><%= listing.desc %></textarea>
         <div class="invalid-feedback">Please Enter a Valid Short Description</div>
         </div>
+        <div>
+            <p>Original Listing Image </p>
+            <img src="<%= originalUrl %>" alt="">
+        </div>
         <div class="mb-3">
-            <label class="form-label" for="image">Image Url</label>
+            <label class="form-label" for="image">Upload New Image </label>
             <br><br>
-            <input class="form-control"type="text" name="Listing[image.url]" value="<%= listing.image.url %>" >
-            <div class="invalid-feedback">Please Enter a Valid Image Link/URL</div>
+            <input class="form-control"type="file" name="Listing[image]">
         </div>
         <div class="mb-3">
             <label class="form-label" for="price">Price</label>

@@ -26,7 +26,7 @@ router.get("/new", isLoggerIn, listingController.renderNew);
 router.route("/:id")
 .get(wrapAsync(listingController.showlisting))
 .delete(isLoggerIn,isOwner,wrapAsync(listingController.deletelisting))
-.put(isLoggerIn,isOwner,wrapAsync(listingController.updatelisting));
+.put(isLoggerIn,isOwner,upload.single('Listing[image]'),wrapAsync(listingController.updatelisting));
 
 //Edit Route
 router.get("/:id/edit",isLoggerIn,isOwner,wrapAsync(listingController.edit));

@@ -8,12 +8,12 @@ const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const path = require('path');
 const methodOverride = require("method-override");
-const ejsMate = require('ejs-mate')
-const ExpressError = require("./utils/ExpressError.js");
+const ejsMate = require('ejs-mate');
 const listingsRouter = require("./routes/listings.js");
 const reviewsRouter = require("./routes/reviews.js");
 const usersRouter = require("./routes/user.js");
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -31,9 +31,35 @@ app.use(express.static(path.join(__dirname,"public")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const dbUrl = process.env.ATLASDB_URL;
 
+
+
+ // main 
+    main().then(()=>{
+        console.log("Connection to DB Successful");
+    })
+    .catch((err)=>{
+        console.log(err);
+    }); 
+    async function main(){
+        await mongoose.connect(dbUrl);
+    }
+    console.log("MongoDB Connection URL:", dbUrl);
+    const store = new MongoStore({
+        mongoUrl: dbUrl,
+        crypto: {
+            secret: process.env.SECRET,
+        },
+        touchAfter: 24 * 3600,
+    });
+    
+    store.on("error" , (error) => {
+        console.log("Error in Mongo Session Store", error);
+    });
 const sessionOptions= {
-    secret : "mysupersecretcode",
+    store:store,
+    secret : process.env.SECRET,
     resave : false,
     saveUninitialized : true,
     cookie : {
@@ -42,6 +68,8 @@ const sessionOptions= {
         httpOnly : true,
     },
 };
+
+
 app.use(session(sessionOptions));
 app.use(flash());
  // basic passport setup
@@ -54,21 +82,12 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
- // main 
-    main().then(()=>{
-        console.log("Connection to DB Successful");
-    })
-    .catch((err)=>{
-        console.log(err);
-    }); 
-    async function main(){
-        await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
-    }
 
 
-app.get("/",(req,res)=>{
-    res.send("Hi I am Root");
-});
+
+// app.get("/",(req,res)=>{
+//     res.send("Hi I am Root");
+// });
 
 
 app.use((req,res,next)=>{ // Success Error Flash
