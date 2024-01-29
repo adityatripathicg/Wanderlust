@@ -1,5 +1,5 @@
 const Listing = require("../models/listing.js");
-const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+//const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = undefined;
 if(mapToken!=="undefined"){
 //const geocodingClient = mbxGeocoding({ accessToken: mapToken });
@@ -10,7 +10,8 @@ module.exports.index = async(req,res)=>{
     res.render("listings/index.ejs",{alllistings});
 };
 module.exports.renderNew = (req, res) => {
-    res.render("listings/new.ejs");
+    res.send("New Listing Page");
+    //res.render("listings/new.ejs");
 };
 module.exports.edit = async (req,res)=>{
     let {id} = req.params;

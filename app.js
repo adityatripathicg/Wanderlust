@@ -85,9 +85,9 @@ passport.deserializeUser(User.deserializeUser());
 
 
 
-// app.get("/",(req,res)=>{
-//     res.send("Hi I am Root");
-// });
+app.get("/",(req,res)=>{
+    res.redirect("/listings");
+});
 
 
 app.use((req,res,next)=>{ // Success Error Flash
@@ -97,7 +97,7 @@ app.use((req,res,next)=>{ // Success Error Flash
     next();
 });
 
-app.use("/", listingsRouter);
+
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", usersRouter);
