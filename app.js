@@ -45,7 +45,7 @@ const dbUrl = process.env.ATLASDB_URL;
     async function main(){
         await mongoose.connect(dbUrl);
     }
-    console.log("MongoDB Connection URL:", dbUrl);
+    //console.log("MongoDB Connection URL:", dbUrl);
     const store = new MongoStore({
         mongoUrl: dbUrl,
         crypto: {
