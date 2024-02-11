@@ -10,8 +10,8 @@ module.exports.index = async(req,res)=>{
     res.render("listings/index.ejs",{alllistings});
 };
 module.exports.renderNew = (req, res) => {
-    res.send("New Listing Page");
-    //res.render("listings/new.ejs");
+    //res.send("New Listing Page");
+    res.render("listings/new.ejs");
 };
 module.exports.edit = async (req,res)=>{
     let {id} = req.params;
